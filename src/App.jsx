@@ -112,7 +112,11 @@ function App() {
     if (activeTaskIndex < levelTasks.length - 1) {
       setActiveTaskIndex(prev => prev + 1);
     } else {
-      setCurrentScreen('gift');
+      if (activeLevel.id === 2) {
+        setCurrentScreen('puzzle');
+      } else {
+        setCurrentScreen('gift');
+      }
     }
   };
 
@@ -129,6 +133,7 @@ function App() {
     if (currentScreen === 'menu') return "SYSTEM ONLINE // NOMU'S JOURNEY // WAITING FOR INPUT...";
     if (currentScreen === 'levelSelect') return `CHAPTER SELECTION // ${gameState.unlockedLevels.length}/5 UNLOCKED // PROCEED WITH CARE...`;
     if (currentScreen === 'task') return `EXECUTING PROCESS: ${activeLevel.title} // TASK ${activeTaskIndex + 1}/${activeLevel.tasks.length} // INITIALIZING RESPONSE...`;
+    if (currentScreen === 'puzzle') return "INTERACTIVE_PUZZLE_BLOCK // AWAITING PHYSICAL VALIDATION // STANDY BY...";
     if (currentScreen === 'gift') return "ENCRYPTION BROKEN // DATA RECOVERED // NEW GIFT ARCHIVED...";
     if (currentScreen === 'ending') return "SYSTEM STANDBY // COMPLETED // ALWAYS & FOREVER";
     return "NOMU'S JOURNEY // ALWAYS & FOREVER";
@@ -157,6 +162,7 @@ function App() {
           {currentScreen === 'menu' && "NOMU_OS_v1.0.exe"}
           {currentScreen === 'levelSelect' && "ARCHIVE_LOOKUP.sh"}
           {currentScreen === 'task' && `TASK_PROCESSOR_${activeLevel.id}.pkg`}
+          {currentScreen === 'puzzle' && "PHYSICAL_PUZZLE_WAIT.sys"}
           {currentScreen === 'gift' && "DECRYPTED_GIFT.dat"}
           {currentScreen === 'ending' && "CORE_SHUTDOWN.log"}
         </div>
@@ -197,6 +203,17 @@ function App() {
             index={activeTaskIndex}
             total={activeLevel.tasks.length}
           />
+        )}
+
+        {currentScreen === 'puzzle' && (
+          <div className="puzzle-screen">
+            <h2>PHYSICAL_CHALLENGE</h2>
+            <div className="gift-box">
+              <p className="gift-msg">"Solve the puzzle to continue"</p>
+              <p className="task-subtext">// Patience is the key to solving this puzzle and the key to a happy relationship</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => setCurrentScreen('gift')}>[✓] PUZZLE_SOLVED</button>
+          </div>
         )}
 
         {currentScreen === 'gift' && activeLevel && (
